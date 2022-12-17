@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- 引入 layui.css -->
+    <link rel="stylesheet" href="./layui/css/layui.css">
+    <script src="./layui/layui.js"></script>
+    <!-- 引入 layui.js -->
+    <style>
+      .layui-inline {
+        display: inline-block;
+        margin-top: 2px;
+        padding-left: 5px;
+      }
+      .item {
+        position: relative;
+        margin: 0 0;
+      }
+      .item > i {
+        position: absolute;
+        right: 15px;
+        top: 10px;
+      }
+      i {
+        cursor: pointer;
+      }
+      .line {
+        border-left: 5px solid ;
+      }
+      .salmon {
+        border-left-color: salmon;
+      }
+      .yellow {
+        border-left-color: yellow;
+      }
+      .aqua {
+        border-left-color: aqua;
+      }
+      .cornflowerblue {
+        border-left-color: cornflowerblue;
+      }
+      .chartreuse {
+        border-left-color: chartreuse;
+      }
+      .input {
+        margin-top: 4px;
+      }
+      .disabled {
+        background-color: #c6cac6;
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+      <button type="button" class="layui-btn layui-btn-normal" onclick="init()">新建/重置</button>
+      <button type="button" class="layui-btn layui-btn-normal" onclick="test()">获取stack</button>
+      <button type="button" class="layui-btn layui-btn-normal" onclick="render()">渲染</button>
+    </div>
+    <form id="form" class="layui-form">
+
+    </form>
+    <script type="module">
+      import {easybeetl} from "./easybeetl.js";
+      window.easybeetl = easybeetl
+    </script>
+    <script type="text/javascript">
+      let stack = null
+      let layer, $, form
+      layui.use(['form', 'layer'], function(){
+        form = layui.form
+        layer = layui.layer;
+        $ = layui.$
+        form.on('select(tp)', function(data){
+          $(data.elem).attr('v', data.value)
+          selectType(data.elem, data.value)
+        })
+      });
+      function render() {
+        console.log(getEasyBeetl().render(getStack()));
+      }
+      function test() {
+        console.log(getStack());
+      }
+      function sync(item) {
+        let line = $(item).closest('.line')
+        let pos = JSON.parse($(line).attr('index'))
+        set(getStack(), pos)
+      }
+      function addClick(item) {
+        let line = $(item).closest('.line')
+        let index = JSON.parse($(line).attr('index'))
+        index[index.length - 1]++
+        addLine(getStack(), index)
+      }
+      function init() {
+        stack = null
+        clearForm()
+        addLine(getStack(), [0])
+      }
+      function clearForm() {
+        $('#form').children().remove()
+      }
+      function getEasyBeetl() {
+        return window.easybeetl
+      }
+      function getStack() {
+        if (null == stack) {
+          stack = getEasyBeetl().build()
+        }
+        return stack
+      }
+      function getSb() {
+        return getStack().stringBuilder
+      }
+      function getVb() {
+        return getStack().variableBuilder
+      }
+      function getEb() {
+        return getStack().expressionBuilder
+      }
+      function updateNextLines(pos, offset) {
+        let n = pos.length
+        for (let line of $('.line')) {
+          let index = JSON.parse($(line).attr('index'))
+          if (index.length >= n && prevEquals(pos, index, -1) && index[n - 1] >= pos[n - 1]) {
+            index[n - 1] += offset
+            $(line).attr('index', JSON.stringify(index))
+          }
+        }
+      }
+      function prevEquals(pos, another, offset = 0) {
+        let n = pos.length + offset
+        for (let i = 0; i < n; i++) {
+          if (pos[i] !== another[i]) {
+            return false
+          }
+        }
+        return true
+      }
+      function deleteClick(item) {
+        let pos = JSON.parse($($(item).closest('.line')).attr('index'))
+        let n = pos.length
+        for (let line of $('.line')) {
+          let index = JSON.parse($(line).attr('index'))
+          if (index.length >= n && prevEquals(pos, index)) {
+            $(line).remove()
+          }
+        }
+        updateNextLines(pos, -1)
+        window.easybeetl.remove(getStack(), pos)
+      }
+      function findPrevLine(pos) {
+        let n = pos.length
+        let ret = null
+        let prev = null
+        for (let line of $('.line')) {
+          let index = JSON.parse($(line).attr('index'))
+          if (index.length >= n && prevEquals(pos, index, -1) && index[n - 1] < pos[n - 1]) {
+            ret = line
+          } else if (index.length === n - 1 && prevEquals(index, pos)) {
+            prev = line
+          }
+        }
+        return ret === null ? prev : ret
+      }
+      function findPrevItem(pos) {
+        let n = pos.length
+        if (pos[n - 1] === 0) {
+          return null
+        }
+        for (let line of $('.line')) {
+          let index = JSON.parse($(line).attr('index'))
+          if (index.length === n && prevEquals(pos, index, -1) && index[n - 1] + 1 === pos[n - 1]) {
+            return line
+          }
+        }
+      }
+      function addLine(stack, pos) {
+        updateNextLines(pos, 1)
+        let prev = findPrevLine(pos)
+        let color = ['salmon', 'aqua', 'yellow', 'cornflowerblue', 'chartreuse']
+        if (null == prev) {
+          easybeetl.add(stack, pos, {
+            type: 'string',
+            value: '',
+            method: 'appendSingle'
+          })
+          $('#form').append('<div class="line ' + color[(pos.length - 1) % 5] + '" index="' + JSON.stringify(pos) + '" style="margin-left: ' + (pos.length - 1) * 40 + 'px">\n' +
+                  '        <div class="layui-form-item layui-inline"  style="width: 250px; margin-bottom: 0">\n' +
+                  '          <div class="item layui-inline input">\n' +
+                  '            <input type="text" readonly class="layui-input layui-inline method" v="appendSingle"  placeholder="方法" value="表达式以字符或变量开头" style="width: 230px">\n' +
+                  '            <i class="layui-icon layui-icon-more" onclick="selectMethod(this)"></i>\n' +
+                  '          </div>\n' +
+                  '        </div>\n' +
+                  '        <div class="layui-form-item layui-inline" style="width: 150px; margin-bottom: 0">\n' +
+                  '          <div class="item layui-inline">\n' +
+                  '            <select lay-filter="tp" class="type" v="string">\n' +
+                  '              <option value="string">字符串</option>\n' +
+                  '              <option value="variable">变量或数值</option>\n' +
+                  '              <option value="expression">表达式</option>\n' +
+                  '            </select>\n' +
+                  '          </div>\n' +
+                  '        </div>\n' +
+                  '        <div class="layui-form-item layui-inline" style="width: 155px; margin-bottom: 0">\n' +
+                  '          <div class="item layui-inline input">\n' +
+                  '            <input type="text" class="layui-input layui-inline value" oninput="sync(this)" >\n' +
+                  '          </div>\n' +
+                  '        </div>\n' +
+                  '        <div class="layui-form-item layui-inline" style="width: 80px; margin-bottom: 0">\n' +
+                  '          <div class="item layui-inline input" style="margin-top: 0">\n' +
+                  '            <button onclick="addClick(this)" type="button" class="layui-btn layui-btn-primary" style="margin-top: 0;">添加</button>\n' +
+                  '          </div>\n' +
+                  '        </div>\n' +
+                  '        <div class="layui-form-item layui-inline" style="width: 80px; margin-bottom: 0">\n' +
+                  '          <div class="item layui-inline input" style="margin-top: 0">\n' +
+                  '            <button onclick="deleteClick(this)" type="button" class="layui-btn layui-btn-danger" style="margin-top: 0">删除</button>' +
+                  '          </div>\n' +
+                  '        </div>\n' +
+                  '      </div>')
+        } else {
+          let prevItem = findPrevItem(pos)
+          let v = ['appendSingle', 'appendString', 'appendTrue', 'appendFalse']
+          let value = ['表达式以字符或变量开头', '字符串拼接', 'If = True', 'If = False']
+          let idx = 0
+          if (null !== prevItem) {
+            idx = 1
+            let method = $($(prevItem).find('.method')).attr('v')
+            if ('appendIf' === method) {
+              idx = 2
+            } else if ('appendTrue' === method) {
+              idx = 3
+            }
+          }
+          easybeetl.add(stack, pos, {
+            type: 'string',
+            value: '',
+            method: v[idx]
+          })
+          $(prev).after('<div class="line ' + color[(pos.length - 1) % 5] + '" index="' + JSON.stringify(pos) + '" style="margin-left: ' + (pos.length - 1) * 40 + 'px">\n' +
+                  '        <div class="layui-form-item layui-inline" style="width: 250px; margin-bottom: 0">\n' +
+                  '          <div class="item layui-inline input">\n' +
+                  '            <input type="text" readonly class="layui-input layui-inline method" v="' + v[idx] + '"  placeholder="方法" value="' + value[idx] + '" style="width: 230px">\n' +
+                  '            <i class="layui-icon layui-icon-more" onclick="selectMethod(this)"></i>\n' +
+                  '          </div>\n' +
+                  '        </div>\n' +
+                  '        <div class="layui-form-item layui-inline" style="width: 150px; margin-bottom: 0">\n' +
+                  '          <div class="item layui-inline">\n' +
+                  '            <select lay-filter="tp" class="type" v="string">\n' +
+                  '              <option value="string">字符串</option>\n' +
+                  '              <option value="variable">变量或数值</option>\n' +
+                  '              <option value="expression">表达式</option>\n' +
+                  '            </select>\n' +
+                  '          </div>\n' +
+                  '        </div>\n' +
+                  '        <div class="layui-form-item layui-inline" style="width: 155px; margin-bottom: 0">\n' +
+                  '          <div class="item layui-inline input">\n' +
+                  '            <input type="text" class="layui-input layui-inline value" oninput="sync(this)" >\n' +
+                  '          </div>\n' +
+                  '        </div>\n' +
+                  '        <div class="layui-form-item layui-inline" style="width: 80px; margin-bottom: 0">\n' +
+                  '          <div class="item layui-inline input" style="margin-top: 0">\n' +
+                  '            <button onclick="addClick(this)" type="button" class="layui-btn layui-btn-primary" style="margin-top: 0;">添加</button>\n' +
+                  '          </div>\n' +
+                  '        </div>\n' +
+                  '        <div class="layui-form-item layui-inline" style="width: 80px; margin-bottom: 0">\n' +
+                  '          <div class="item layui-inline input" style="margin-top: 0">\n' +
+                  '            <button onclick="deleteClick(this)" type="button" class="layui-btn layui-btn-danger" style="margin-top: 0">删除</button>' +
+                  '          </div>\n' +
+                  '        </div>\n' +
+                  '      </div>')
+        }
+        form.render('select')
+      }
+      function set(stack, pos) {
+        let line = getLine(pos)
+        let options = {}
+        options.method = $($(line).find('.method')).attr('v')
+        options.type = $($(line).find('.type')).attr('v')
+        options.value = $($(line).find('.value')).val()
+        if (options.type === 'expression') {
+          options.value = []
+        }
+        getEasyBeetl().set(stack, pos, options)
+      }
+      function deleteChildren(pos) {
+        for (let line of $('.line')) {
+          let index = JSON.parse($(line).attr('index'))
+          if (index.length > pos.length && prevEquals(pos, index)) {
+            $(line).remove()
+          }
+        }
+      }
+      function getLine(pos) {
+        let index = JSON.stringify(pos)
+        for (let line of $('.line')) {
+          if ($(line).attr('index') === index) {
+            return line
+          }
+        }
+      }
+      function selectType(item, value) {
+        let line = $(item).closest('.line')
+        let input = $(line).find('.value')
+        let pos = JSON.parse($(line).attr('index'))
+        set(getStack(), pos)
+        if (value === 'expression') {
+          $(input).attr('disabled', 'disabled')
+          $(input).addClass('disabled')
+          $(input).val('表达式不需要填充值')
+          pos.push(0)
+          addLine(getStack(), pos)
+        } else if ($(input).attr('disabled') === 'disabled') {
+          $(input).removeAttr('disabled')
+          $(input).removeClass('disabled')
+          $(input).val('')
+          deleteChildren(pos)
+          set(getStack(), pos)
+        }
+      }
+      function selectMethod(item) {
+        layer.open({
+          type: 2,
+          title: '选择方法',
+          area: ['700px', '500px'],
+          btn: ['确定', '取消'],
+          content: './method.html',
+          yes: function(index) {
+            let select = window.frames[0].getSelect()
+            if (null == select) {
+              layer.open({
+                type: 0,
+                title: '提示',
+                content: '未选中方法'
+              })
+              return
+            }
+            let line = $($(item).closest('.line'))
+            $(line.find('.method')).val(select.text)
+            $(line.find('.method')).attr('v', select.value)
+            set(getStack(), JSON.parse(line.attr('index')))
+            layer.close(index)
+          },
+          btn2: function(index) {
+            layer.close(index)
+          }
+        })
+      }
+    </script>
+  </body>
+</html>

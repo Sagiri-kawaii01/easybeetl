@@ -1,0 +1,33 @@
+{
+  "name": "easybeetl",
+  "version": "1.0.0",
+  "description": "beetl表达式图形化创建",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lite": "lite-server",
+    "dev": "npm run lite"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Sagiri-kawaii01/easybeetl.git"
+  },
+  "author": "Sagiri-kawaii01",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Sagiri-kawaii01/easybeetl/issues"
+  },
+  "homepage": "https://github.com/Sagiri-kawaii01/easybeetl#readme",
+  "devDependencies": {
+    "cz-emoji-conventional": "^1.0.1",
+    "lite-server": "^2.6.1"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-emoji-conventional"
+    }
+  },
+  "dependencies": {
+    "layui": "^2.8.0-rc.4"
+  }
+}
