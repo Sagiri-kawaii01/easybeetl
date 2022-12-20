@@ -170,11 +170,19 @@ const core = {
         temp = this.exec(period, temp)
       }
       return this.appendPlaceHolder(temp)
-    } else if (ex.type === 'string') {
+    }
+    if (this[ex.method] === undefined) {
+      this[ex.method] = (temp, str) => {
+        return temp + ex.method + '(' + str + ')'
+      }
+    }
+    if (ex.type === 'string') {
       return this[ex.method](temp, '"' + ex.value + '"')
-    } else if (ex.type === 'variable') {
+    }
+    if (ex.type === 'variable') {
       return this[ex.method](temp, ex.value)
-    } else if (ex.type === 'expression') {
+    }
+    if (ex.type === 'expression') {
       let str = ''
       for (let period of ex.value) {
         str = this.exec(period, str)
