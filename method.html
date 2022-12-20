@@ -36,6 +36,7 @@
           <option value="2">字符串方法</option>
           <option value="3">数组方法</option>
           <option value="4">正则方法</option>
+          <option value="5">自定义方法</option>
         </select>
       </div>
       <table class="layui-table">
@@ -333,10 +334,16 @@
           text: '切分字符串返回列表并限制个数',
           sign: 'reg.split(对象, 表达式, 最多个数)'
         }
-      ]
+      ],
+      []
     ]
     layui.use(['form'], function() {
       $ = layui.$
+      $.getJSON('extend.json', (d)=> {
+        for (let o of d) {
+          data[5].push(o)
+        }
+      })
       form = layui.form
       refreshTable()
       form.on('select(type)', (data)=>{
