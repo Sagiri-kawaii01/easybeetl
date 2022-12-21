@@ -7,6 +7,7 @@
     <script src="./layui/layui.js"></script>
     <!-- 引入 layui.js -->
     <style>
+
       .layui-inline {
         display: inline-block;
         margin-top: 2px;
@@ -47,6 +48,9 @@
       }
       .disabled {
         background-color: #c6cac6;
+      }
+      .hidden {
+        display: none;
       }
     </style>
   </head>
@@ -245,6 +249,11 @@
                   '            <i class="layui-icon layui-icon-more" onclick="selectMethod(this)"></i>\n' +
                   '          </div>\n' +
                   '        </div>\n' +
+                  '        <div class="layui-form-item layui-inline desc hidden" style="width: 250px; margin-bottom: 0">\n' +
+                  '          <div class="item layui-inline input">\n' +
+                  '            <input type="text" readonly class="layui-input layui-inline method desc-text" v="' + v[idx] + '"    style="width: 230px">\n' +
+                  '          </div>\n' +
+                  '        </div>\n' +
                   '        <div class="layui-form-item layui-inline" style="width: 150px; margin-bottom: 0">\n' +
                   '          <div class="item layui-inline">\n' +
                   '            <select lay-filter="tp" class="type" v="string">\n' +
@@ -337,8 +346,14 @@
               return
             }
             let line = $($(item).closest('.line'))
+            let normalMethod = ['appendSingle', 'appendString', 'appendParam', 'appendIf', 'appendTrue', 'appendFalse', 'appendAdd', 'appendSub', 'appendMulti', 'appendDiv', 'appendBracket']
+            $(line.find('.desc')).addClass('hidden')
             $(line.find('.method')).val(select.text)
             $(line.find('.method')).attr('v', select.value)
+            if (!normalMethod.includes(select.value)) {
+              $(line.find('.desc-text')).val(select.sign)
+              $(line.find('.desc')).removeClass('hidden')
+            }
             set(getStack(), JSON.parse(line.attr('index')))
             layer.close(index)
           },
