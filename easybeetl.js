@@ -23,6 +23,9 @@ const core = {
   appendBracket(temp, str) {
     return temp + '(' + str + ')'
   },
+  appendPoint(temp, str) {
+    return temp + '.' + str
+  },
   appendAdd(temp, str) {
     return temp + '+' + str
   },
@@ -176,8 +179,11 @@ const core = {
         return temp + ex.method + '(' + str + ')'
       }
     }
-    if (ex.type === 'string') {
+    if (ex.type === 'string_double') {
       return this[ex.method](temp, '"' + ex.value + '"')
+    }
+    if (ex.type === 'string_single') {
+      return this[ex.method](temp, "'" + ex.value + "'")
     }
     if (ex.type === 'variable') {
       return this[ex.method](temp, ex.value)
