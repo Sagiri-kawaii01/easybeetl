@@ -30,364 +30,364 @@
   </style>
 </head>
 <body>
-  <form id="methodForm" class="layui-form">
-    <div class="layui-form-item">
-      <div class="layui-input-block" style="width: 200px">
-        <select name="type" lay-filter="type">
-          <option value="0">核心方法</option>
-          <option value="1">基本方法</option>
-          <option value="2">字符串方法</option>
-          <option value="3">数组方法</option>
-          <option value="4">正则方法</option>
-          <option value="5">自定义方法</option>
-        </select>
-      </div>
-      <table class="layui-table" style="cursor: pointer">
-        <thead>
-          <tr>
-            <th>描述</th>
-            <th id="params">语法符号</th>
-          </tr>
-        </thead>
-        <tbody id="tb">
-
-        </tbody>
-      </table>
+<form id="methodForm" class="layui-form">
+  <div class="layui-form-item">
+    <div class="layui-input-block" style="width: 200px">
+      <select name="type" lay-filter="type">
+        <option value="0">核心方法</option>
+        <option value="1">基本方法</option>
+        <option value="2">字符串方法</option>
+        <option value="3">数组方法</option>
+        <option value="4">正则方法</option>
+        <option value="5">自定义方法</option>
+      </select>
     </div>
-  </form>
-  <script type="text/javascript">
-    let $, type = 0, form, dataSelect = null
-    let data = [
-      [
-        {
-          value: 'appendSingle',
-          text: '表达式以字符或变量开头',
-          params: '表达式以字符或变量开头'
-        },
-        {
-          value: 'appendString',
-          text: '字符串拼接',
-          params: '+'
-        },
-        {
-          value: 'appendParam',
-          text: '参数拼接',
-          params: ','
-        },
-        {
-          value: 'appendIf',
-          text: '创建If',
-          params: '?'
-        },
-        {
-          value: 'appendTrue',
-          text: 'If = True',
-          params: ':'
-        },
-        {
-          value: 'appendFalse',
-          text: 'If = False',
-          params: ':'
-        },
-        {
-          value: 'appendAdd',
-          text: '数值运算加法',
-          params: '+'
-        },
-        {
-          value: 'appendSub',
-          text: '数值运算减法',
-          params: '-'
-        },
-        {
-          value: 'appendMulti',
-          text: '数值运算乘法',
-          params: '*'
-        },
-        {
-          value: 'appendDiv',
-          text: '数值运算除法',
-          params: '/'
-        },
-        {
-          value: 'appendBracket',
-          text: '括号',
-          params: '()'
-        },
-        {
-          value: 'appendPoint',
-          text: '方法或属性调用的小数点',
-          params: '.'
-        }
-      ],
-      [
-        {
-          value: 'appendDate',
-          text: '获取当前时间',
-          params: ''
-        },
-        {
-          value: 'appendDateOn',
-          text: '返回指定日期',
-          params: '日期, 格式化规则'
-        },
-        {
-          value: 'appendPrint',
-          text: '打印一个对象',
-          params: '对象'
-        },
-        {
-          value: 'appendPrintln',
-          text: '打印一个对象并换行',
-          params: '对象'
-        },
-        {
-          value: 'appendPrintFile',
-          text: '打印文件',
-          params: '文件地址'
-        },
-        {
-          value: 'appendNvl',
-          text: 'nvl',
-          params: '对象, 字符串'
-        },
-        {
-          value: 'appendIsEmpty',
-          text: '判断为空',
-          params: '对象'
-        },
-        {
-          value: 'appendIsNotEmpty',
-          text: '判断不为空',
-          params: '对象'
-        },
-        {
-          value: 'appendTrim',
-          text: '截取数字或日期',
-          params: '对象, 位数或格式'
-        },
-        {
-          value: 'appendTrunc',
-          text: '保留小数',
-          params: '对象, 位数'
-        },
-        {
-          value: 'appendParseInt',
-          text: '转换为整型',
-          params: '对象'
-        },
-        {
-          value: 'appendParseLong',
-          text: '转换为长整型',
-          params: '对象'
-        },
-        {
-          value: 'appendParseDouble',
-          text: '转换为浮点数',
-          params: '对象'
-        },
-        {
-          value: 'appendRange',
-          text: '创建迭代器',
-          params: '初始值, 结束值, 步长'
-        },
-        {
-          value: 'appendJson',
-          text: '转换为json',
-          params: '对象'
-        },
-        {
-          value: 'appendCookie',
-          text: '获取指定cookie对象',
-          params: '对象'
-        }
-      ],
-      [
-        {
-          value: 'appendStrStartWith',
-          text: '判断是否以XX开头',
-          params: '对象'
-        },
-        {
-          value: 'appendStrEndWith',
-          text: '判断是否以XX结尾',
-          params: '对象'
-        },
-        {
-          value: 'appendStrLength',
-          text: '获取字符串长度',
-          params: '对象'
-        },
-        {
-          value: 'appendStrSubString',
-          text: '截取从某个位置到末尾',
-          params: '对象, 起点'
-        },
-        {
-          value: 'appendStrSubStringTo',
-          text: '截取指定两个位置间的字符串',
-          params: '对象, 起点, 终点'
-        },
-        {
-          value: 'appendStrSplit',
-          text: '以某个字符分割字符串为数组',
-          params: '对象, 正则表达式'
-        },
-        {
-          value: 'appendStrContain',
-          text: '判断是否存在某串字符',
-          params: '对象, 匹配字符串'
-        },
-        {
-          value: 'appendStrToUpperCase',
-          text: '全部英文转大写',
-          params: '对象'
-        },
-        {
-          value: 'appendStrToLowerCase',
-          text: '全部英文转小写',
-          params: '对象'
-        },
-        {
-          value: 'appendStrReplace',
-          text: '替换部分字符串',
-          params: '对象, 查找的字符串, 替换的字符串'
-        },
-        {
-          value: 'appendStrFormat',
-          text: '格式化字符串',
-          params: '对象, 数量相符的参数'
-        },
-        {
-          value: 'appendStrTrim',
-          text: '去掉字符串尾部空格',
-          params: '对象'
-        },
-        {
-          value: 'appendStrFormatDate',
-          text: '格式化日期',
-          params: '对象, 格式'
-        },
-        {
-          value: 'appendStrIndex',
-          text: '获取指定字符串第一次出现下标',
-          params: '对象'
-        },
-        {
-          value: 'appendStrLastIndex',
-          text: '获取指定字符串最后一次出现下标',
-          params: '对象'
-        }
-      ],
-      [
-        {
-          value: 'appendArrayRange',
-          text: '返回数组的一部分',
-          params: '数组, 起点, 终点'
-        },
-        {
-          value: 'appendArrayRemove',
-          text: '删除数组的某个元素',
-          params: '数组, 元素'
-        },
-        {
-          value: 'appendArrayAdd',
-          text: '向数组添加一个元素',
-          params: '数组, 元素'
-        },
-        {
-          value: 'appendArrayContain',
-          text: '判断数组是否包含某元素',
-          params: '数组, 元素'
-        },
-        {
-          value: 'appendArrayToArray',
-          text: '转化成数组',
-          params: '任意数量的参数'
-        },
-        {
-          value: 'appendArrayCollection2Array',
-          text: '将java集合转换为数组',
-          params: '数组'
-        }
-      ],
-      [
-        {
-          value: 'appendRegMatch',
-          text: '判断是否匹配',
-          params: '对象, 正则表达式'
-        },
-        {
-          value: 'appendRegReplace',
-          text: '替换',
-          params: '对象, 正则表达式, 替换的字符串'
-        },
-        {
-          value: 'appendRegFind',
-          text: '查找第一个匹配的',
-          params: '对象, 正则表达式'
-        },
-        {
-          value: 'appendRegFindList',
-          text: '查找所有匹配的',
-          params: '对象, 正则表达式'
-        },
-        {
-          value: 'appendRegSplit',
-          text: '切分字符串返回列表',
-          params: '对象, 正则表达式'
-        },
-        {
-          value: 'appendRegSplitLimit',
-          text: '切分字符串返回列表并限制个数',
-          params: '对象, 正则表达式, 最多个数'
-        }
-      ],
-      []
-    ]
-    layui.use(['form'], function() {
-      $ = layui.$
-      $.getJSON('extend.json', (d)=> {
-        for (let o of d) {
-          data[5].push(o)
-        }
-      })
-      form = layui.form
-      refreshTable()
-      form.on('select(type)', (data)=>{
-        type = data.value
-        if (parseInt(type) === 0) {
-          $('#params').text('语法符号')
-        } else {
-          $('#params').text('方法参数')
-        }
-        refreshTable()
-      })
+    <table class="layui-table" style="cursor: pointer">
+      <thead>
+      <tr>
+        <th>描述</th>
+        <th id="params">语法符号</th>
+      </tr>
+      </thead>
+      <tbody id="tb">
+
+      </tbody>
+    </table>
+  </div>
+</form>
+<script type="text/javascript">
+  let $, type = 0, form, dataSelect = null
+  let data = [
+    [
+      {
+        value: 'appendSingle',
+        text: '表达式以字符或变量开头',
+        params: '表达式以字符或变量开头'
+      },
+      {
+        value: 'appendString',
+        text: '字符串拼接',
+        params: '+'
+      },
+      {
+        value: 'appendParam',
+        text: '参数拼接',
+        params: ','
+      },
+      {
+        value: 'appendIf',
+        text: '创建If',
+        params: '?'
+      },
+      {
+        value: 'appendTrue',
+        text: 'If = True',
+        params: ':'
+      },
+      {
+        value: 'appendFalse',
+        text: 'If = False',
+        params: ':'
+      },
+      {
+        value: 'appendAdd',
+        text: '数值运算加法',
+        params: '+'
+      },
+      {
+        value: 'appendSub',
+        text: '数值运算减法',
+        params: '-'
+      },
+      {
+        value: 'appendMulti',
+        text: '数值运算乘法',
+        params: '*'
+      },
+      {
+        value: 'appendDiv',
+        text: '数值运算除法',
+        params: '/'
+      },
+      {
+        value: 'appendBracket',
+        text: '括号',
+        params: '()'
+      },
+      {
+        value: 'appendPoint',
+        text: '方法或属性调用的小数点',
+        params: '.'
+      }
+    ],
+    [
+      {
+        value: 'appendDate',
+        text: '获取当前时间',
+        params: ''
+      },
+      {
+        value: 'appendDateOn',
+        text: '返回指定日期',
+        params: '日期, 格式化规则'
+      },
+      {
+        value: 'appendPrint',
+        text: '打印一个对象',
+        params: '对象'
+      },
+      {
+        value: 'appendPrintln',
+        text: '打印一个对象并换行',
+        params: '对象'
+      },
+      {
+        value: 'appendPrintFile',
+        text: '打印文件',
+        params: '文件地址'
+      },
+      {
+        value: 'appendNvl',
+        text: 'nvl',
+        params: '对象, 字符串'
+      },
+      {
+        value: 'appendIsEmpty',
+        text: '判断为空',
+        params: '对象'
+      },
+      {
+        value: 'appendIsNotEmpty',
+        text: '判断不为空',
+        params: '对象'
+      },
+      {
+        value: 'appendTrim',
+        text: '截取数字或日期',
+        params: '对象, 位数或格式'
+      },
+      {
+        value: 'appendTrunc',
+        text: '保留小数',
+        params: '对象, 位数'
+      },
+      {
+        value: 'appendParseInt',
+        text: '转换为整型',
+        params: '对象'
+      },
+      {
+        value: 'appendParseLong',
+        text: '转换为长整型',
+        params: '对象'
+      },
+      {
+        value: 'appendParseDouble',
+        text: '转换为浮点数',
+        params: '对象'
+      },
+      {
+        value: 'appendRange',
+        text: '创建迭代器',
+        params: '初始值, 结束值, 步长'
+      },
+      {
+        value: 'appendJson',
+        text: '转换为json',
+        params: '对象'
+      },
+      {
+        value: 'appendCookie',
+        text: '获取指定cookie对象',
+        params: '对象'
+      }
+    ],
+    [
+      {
+        value: 'appendStrStartWith',
+        text: '判断是否以XX开头',
+        params: '对象, 查找的字符串xx'
+      },
+      {
+        value: 'appendStrEndWith',
+        text: '判断是否以XX结尾',
+        params: '对象, 查找的字符串xx'
+      },
+      {
+        value: 'appendStrLength',
+        text: '获取字符串长度',
+        params: '对象'
+      },
+      {
+        value: 'appendStrSubString',
+        text: '截取从某个位置到末尾',
+        params: '对象, 起点'
+      },
+      {
+        value: 'appendStrSubStringTo',
+        text: '截取指定两个位置间的字符串',
+        params: '对象, 起点, 终点'
+      },
+      {
+        value: 'appendStrSplit',
+        text: '以某个字符分割字符串为数组',
+        params: '对象, 正则表达式'
+      },
+      {
+        value: 'appendStrContain',
+        text: '判断是否存在某串字符',
+        params: '对象, 匹配字符串'
+      },
+      {
+        value: 'appendStrToUpperCase',
+        text: '全部英文转大写',
+        params: '对象'
+      },
+      {
+        value: 'appendStrToLowerCase',
+        text: '全部英文转小写',
+        params: '对象'
+      },
+      {
+        value: 'appendStrReplace',
+        text: '替换部分字符串',
+        params: '对象, 查找的字符串, 替换的字符串'
+      },
+      {
+        value: 'appendStrFormat',
+        text: '格式化字符串',
+        params: '对象, 数量相符的参数'
+      },
+      {
+        value: 'appendStrTrim',
+        text: '去掉字符串尾部空格',
+        params: '对象'
+      },
+      {
+        value: 'appendStrFormatDate',
+        text: '格式化日期',
+        params: '对象, 格式'
+      },
+      {
+        value: 'appendStrIndex',
+        text: '获取字符串xx第一次出现下标',
+        params: '对象, 查找的字符串xx'
+      },
+      {
+        value: 'appendStrLastIndex',
+        text: '获取字符串xx最后一次出现下标',
+        params: '对象, 查找的字符串xx'
+      }
+    ],
+    [
+      {
+        value: 'appendArrayRange',
+        text: '返回数组的一部分',
+        params: '数组, 起点, 终点'
+      },
+      {
+        value: 'appendArrayRemove',
+        text: '删除数组的某个元素',
+        params: '数组, 元素'
+      },
+      {
+        value: 'appendArrayAdd',
+        text: '向数组添加一个元素',
+        params: '数组, 元素'
+      },
+      {
+        value: 'appendArrayContain',
+        text: '判断数组是否包含某元素',
+        params: '数组, 元素'
+      },
+      {
+        value: 'appendArrayToArray',
+        text: '转化成数组',
+        params: '任意数量的参数'
+      },
+      {
+        value: 'appendArrayCollection2Array',
+        text: '将java集合转换为数组',
+        params: '数组'
+      }
+    ],
+    [
+      {
+        value: 'appendRegMatch',
+        text: '判断是否匹配',
+        params: '对象, 正则表达式'
+      },
+      {
+        value: 'appendRegReplace',
+        text: '替换',
+        params: '对象, 正则表达式, 替换的字符串'
+      },
+      {
+        value: 'appendRegFind',
+        text: '查找第一个匹配的',
+        params: '对象, 正则表达式'
+      },
+      {
+        value: 'appendRegFindList',
+        text: '查找所有匹配的',
+        params: '对象, 正则表达式'
+      },
+      {
+        value: 'appendRegSplit',
+        text: '切分字符串返回列表',
+        params: '对象, 正则表达式'
+      },
+      {
+        value: 'appendRegSplitLimit',
+        text: '切分字符串返回列表并限制个数',
+        params: '对象, 正则表达式, 最多个数'
+      }
+    ],
+    []
+  ]
+  layui.use(['form'], function() {
+    $ = layui.$
+    $.getJSON('extend.json', (d)=> {
+      for (let o of d) {
+        data[5].push(o)
+      }
     })
-    function getSelect() {
-      return dataSelect
-    }
-    function epClick(e) {
-      $('.ep').removeClass('selected')
-      let slc = $(e.currentTarget)
-      slc.addClass('selected')
-      let idx = JSON.parse(slc.attr('index'))
-      dataSelect = data
-      for (let i of idx) {
-        dataSelect = dataSelect[i]
+    form = layui.form
+    refreshTable()
+    form.on('select(type)', (data)=>{
+      type = data.value
+      if (parseInt(type) === 0) {
+        $('#params').text('语法符号')
+      } else {
+        $('#params').text('方法参数')
       }
+      refreshTable()
+    })
+  })
+  function getSelect() {
+    return dataSelect
+  }
+  function epClick(e) {
+    $('.ep').removeClass('selected')
+    let slc = $(e.currentTarget)
+    slc.addClass('selected')
+    let idx = JSON.parse(slc.attr('index'))
+    dataSelect = data
+    for (let i of idx) {
+      dataSelect = dataSelect[i]
     }
-    function refreshTable() {
-      dataSelect = null
-      let tb = $('#tb')
-      tb.children().remove()
-      let i = 0
-      for (let item of data[type]) {
-        let node = '<tr class="ep" index="[' + type + ',' + i++ + ']"><td>' + item.text + '</td><td>' + item.params + '</td></tr>'
-        tb.append(node)
-      }
-      $('.ep').on('click', epClick)
+  }
+  function refreshTable() {
+    dataSelect = null
+    let tb = $('#tb')
+    tb.children().remove()
+    let i = 0
+    for (let item of data[type]) {
+      let node = '<tr class="ep" index="[' + type + ',' + i++ + ']"><td>' + item.text + '</td><td>' + item.params + '</td></tr>'
+      tb.append(node)
     }
-  </script>
+    $('.ep').on('click', epClick)
+  }
+</script>
 </body>
 </html>
