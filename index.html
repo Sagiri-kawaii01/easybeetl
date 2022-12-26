@@ -223,8 +223,8 @@
                   '      </div>')
         } else {
           let prevItem = findPrevItem(pos)
-          let v = ['appendSingle', 'appendString', 'appendTrue', 'appendFalse']
-          let value = ['表达式以字符或变量开头', '字符串拼接', 'If = True', 'If = False']
+          let v = ['appendSingle', 'appendString', 'appendTrue', 'appendFalse', 'appendParam']
+          let value = ['表达式以字符或变量开头', '字符串拼接', 'If = True', 'If = False', '参数拼接']
           let idx = 0
           if (null !== prevItem) {
             idx = 1
@@ -233,6 +233,8 @@
               idx = 2
             } else if ('appendTrue' === method) {
               idx = 3
+            } else if (JSON.parse($(prevItem).attr('index')).length > 1) {
+              idx = 4
             }
           }
           easybeetl.add(stack, pos, {
