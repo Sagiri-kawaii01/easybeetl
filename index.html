@@ -115,15 +115,6 @@
         }
         return stack
       }
-      function getSb() {
-        return getStack().stringBuilder
-      }
-      function getVb() {
-        return getStack().variableBuilder
-      }
-      function getEb() {
-        return getStack().expressionBuilder
-      }
       function updateNextLines(pos, offset) {
         let n = pos.length
         for (let line of $('.line')) {
@@ -339,6 +330,7 @@
       }
       function selectMethod(item) {
         layer.open({
+          id: 'iframe',
           type: 2,
           title: '选择方法',
           area: ['700px', '500px'],
@@ -368,9 +360,15 @@
           },
           btn2: function(index) {
             layer.close(index)
+          },
+          success: function() {
+            $(window.frames[0].document).find('body').on('dblclick', ()=>{
+              $('.layui-layer-btn0')[0].click()
+            })
           }
         })
       }
+
     </script>
   </body>
 </html>

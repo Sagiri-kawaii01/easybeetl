@@ -2,16 +2,16 @@
   {
     "value": "say",
     "text": "这是自定义方法示例",
-    "params": "要说的话"
+    "params": "参数"
   },
   {
     "value": "dbLookUp",
-    "text": "我也不清楚",
+    "text": "dbLookUp",
     "params": "sql, 参数, datasourceName(可空)"
   },
   {
     "value": "dbLookUp",
-    "text": "还是不清楚",
+    "text": "dbLookUp",
     "params": "查找表或视图, 查找字段(EQ_字段), 返回字段, datasourceName(可空)"
   }
 ]
