@@ -187,7 +187,7 @@
         let color = ['salmon', 'aqua', 'yellow', 'cornflowerblue', 'chartreuse']
         if (null == prev) {
           easybeetl.add(stack, pos, {
-            type: 'string',
+            type: 'string_double',
             value: '',
             method: 'appendSingle'
           })
@@ -206,7 +206,7 @@
                   '        </div>\n' +
                   '        <div class="layui-form-item layui-inline" style="width: 170px; margin-bottom: 0">\n' +
                   '          <div class="item layui-inline">\n' +
-                  '            <select lay-filter="tp" class="type" v="string">\n' +
+                  '            <select lay-filter="tp" class="type" v="string_double">\n' +
                   '              <option value="string_double">字符串（双引号）</option>\n' +
                   '              <option value="string_single">字符串（单引号）</option>\n' +
                   '              <option value="variable">变量或数值</option>\n' +
@@ -245,7 +245,7 @@
             }
           }
           easybeetl.add(stack, pos, {
-            type: 'string',
+            type: 'string_double',
             value: '',
             method: v[idx]
           })
@@ -264,7 +264,7 @@
                   '        </div>\n' +
                   '        <div class="layui-form-item layui-inline" style="width: 170px; margin-bottom: 0">\n' +
                   '          <div class="item layui-inline">\n' +
-                  '            <select lay-filter="tp" class="type" v="string">\n' +
+                  '            <select lay-filter="tp" class="type" v="string_double">\n' +
                   '              <option value="string_double">字符串（双引号）</option>\n' +
                   '              <option value="string_single">字符串（单引号）</option>\n' +
                   '              <option value="variable">变量或数值</option>\n' +

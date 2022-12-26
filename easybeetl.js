@@ -207,7 +207,7 @@ export const easybeetl = {
     }
   },
   render: (stack) => {
-    return core.exec(stack, '');
+    return core.exec(stack, '')
   },
   add: (stack, pos, obj) => {
     let targetList = stack
