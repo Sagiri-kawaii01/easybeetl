@@ -43,7 +43,7 @@
         <thead>
           <tr>
             <th>描述</th>
-            <th>方法签名</th>
+            <th id="params">语法符号</th>
           </tr>
         </thead>
         <tbody id="tb">
@@ -59,285 +59,285 @@
         {
           value: 'appendSingle',
           text: '表达式以字符或变量开头',
-          sign: '表达式以字符或变量开头'
+          params: '表达式以字符或变量开头'
         },
         {
           value: 'appendString',
           text: '字符串拼接',
-          sign: '+'
+          params: '+'
         },
         {
           value: 'appendParam',
           text: '参数拼接',
-          sign: ','
+          params: ','
         },
         {
           value: 'appendIf',
           text: '创建If',
-          sign: '?'
+          params: '?'
         },
         {
           value: 'appendTrue',
           text: 'If = True',
-          sign: ':'
+          params: ':'
         },
         {
           value: 'appendFalse',
           text: 'If = False',
-          sign: ':'
+          params: ':'
         },
         {
           value: 'appendAdd',
           text: '数值运算加法',
-          sign: '+'
+          params: '+'
         },
         {
           value: 'appendSub',
           text: '数值运算减法',
-          sign: '-'
+          params: '-'
         },
         {
           value: 'appendMulti',
           text: '数值运算乘法',
-          sign: '*'
+          params: '*'
         },
         {
           value: 'appendDiv',
           text: '数值运算除法',
-          sign: '/'
+          params: '/'
         },
         {
           value: 'appendBracket',
           text: '括号',
-          sign: '()'
+          params: '()'
         },
         {
           value: 'appendPoint',
           text: '方法或属性调用的小数点',
-          sign: '.'
+          params: '.'
         }
       ],
       [
         {
           value: 'appendDate',
           text: '获取当前时间',
-          sign: 'date()'
+          params: ''
         },
         {
           value: 'appendDateOn',
           text: '返回指定日期',
-          sign: 'date(日期, 格式化规则)'
+          params: '日期, 格式化规则'
         },
         {
           value: 'appendPrint',
           text: '打印一个对象',
-          sign: 'print(对象)'
+          params: '对象'
         },
         {
           value: 'appendPrintln',
           text: '打印一个对象并换行',
-          sign: 'println(对象)'
+          params: '对象'
         },
         {
           value: 'appendPrintFile',
           text: '打印文件',
-          sign: 'printFile(文件地址)'
+          params: '文件地址'
         },
         {
           value: 'appendNvl',
           text: 'nvl',
-          sign: 'nvl(对象, 字符串)'
+          params: '对象, 字符串'
         },
         {
           value: 'appendIsEmpty',
           text: '判断为空',
-          sign: 'isEmpty(对象)'
+          params: '对象'
         },
         {
           value: 'appendIsNotEmpty',
           text: '判断不为空',
-          sign: 'isNotEmpty(对象)'
+          params: '对象'
         },
         {
           value: 'appendTrim',
           text: '截取数字或日期',
-          sign: 'trim(对象, 位数/格式)'
+          params: '对象, 位数或格式'
         },
         {
           value: 'appendTrunc',
           text: '保留小数',
-          sign: 'trunc(对象, 位数)'
+          params: '对象, 位数'
         },
         {
           value: 'appendParseInt',
           text: '转换为整型',
-          sign: 'parseInt(对象)'
+          params: '对象'
         },
         {
           value: 'appendParseLong',
           text: '转换为长整型',
-          sign: 'parseLong(对象)'
+          params: '对象'
         },
         {
           value: 'appendParseDouble',
           text: '转换为浮点数',
-          sign: 'parseDouble(对象)'
+          params: '对象'
         },
         {
           value: 'appendRange',
           text: '创建迭代器',
-          sign: 'range(初始值, 结束值, 步长)'
+          params: '初始值, 结束值, 步长'
         },
         {
           value: 'appendJson',
           text: '转换为json',
-          sign: 'json(对象)'
+          params: '对象'
         },
         {
           value: 'appendCookie',
           text: '获取指定cookie对象',
-          sign: 'cookie(对象)'
+          params: '对象'
         }
       ],
       [
         {
           value: 'appendStrStartWith',
           text: '判断是否以XX开头',
-          sign: 'strutil.startWith(对象)'
+          params: '对象'
         },
         {
           value: 'appendStrEndWith',
           text: '判断是否以XX结尾',
-          sign: 'strutil.endWith(对象)'
+          params: '对象'
         },
         {
           value: 'appendStrLength',
           text: '获取字符串长度',
-          sign: 'strutil.length(对象)'
+          params: '对象'
         },
         {
           value: 'appendStrSubString',
           text: '截取从某个位置到末尾',
-          sign: 'strutil.subString(对象, 起点)'
+          params: '对象, 起点'
         },
         {
           value: 'appendStrSubStringTo',
           text: '截取指定两个位置间的字符串',
-          sign: 'strutil.subStringTo(对象, 起点, 终点)'
+          params: '对象, 起点, 终点'
         },
         {
           value: 'appendStrSplit',
           text: '以某个字符分割字符串为数组',
-          sign: 'strutil.split(对象, 正则表达式)'
+          params: '对象, 正则表达式'
         },
         {
           value: 'appendStrContain',
           text: '判断是否存在某串字符',
-          sign: 'strutil.contain(对象, 匹配字符串)'
+          params: '对象, 匹配字符串'
         },
         {
           value: 'appendStrToUpperCase',
           text: '全部英文转大写',
-          sign: 'strutil.toUpperCase(对象)'
+          params: '对象'
         },
         {
           value: 'appendStrToLowerCase',
           text: '全部英文转小写',
-          sign: 'strutil.toLowerCase(对象)'
+          params: '对象'
         },
         {
           value: 'appendStrReplace',
           text: '替换部分字符串',
-          sign: 'strutil.replace(对象, 匹配字符串, 替换字符串)'
+          params: '对象, 查找的字符串, 替换的字符串'
         },
         {
           value: 'appendStrFormat',
           text: '格式化字符串',
-          sign: 'strutil.format(对象, 数量相符的参数)'
+          params: '对象, 数量相符的参数'
         },
         {
           value: 'appendStrTrim',
           text: '去掉字符串尾部空格',
-          sign: 'strutil.trim(对象)'
+          params: '对象'
         },
         {
           value: 'appendStrFormatDate',
           text: '格式化日期',
-          sign: 'strutil.formatDate(对象, 格式)'
+          params: '对象, 格式'
         },
         {
           value: 'appendStrIndex',
           text: '获取指定字符串第一次出现下标',
-          sign: 'strutil.index(对象)'
+          params: '对象'
         },
         {
           value: 'appendStrLastIndex',
           text: '获取指定字符串最后一次出现下标',
-          sign: 'strutil.laseIndex(对象)'
+          params: '对象'
         }
       ],
       [
         {
           value: 'appendArrayRange',
           text: '返回数组的一部分',
-          sign: 'array.range(数组, 起点, 终点)'
+          params: '数组, 起点, 终点'
         },
         {
           value: 'appendArrayRemove',
           text: '删除数组的某个元素',
-          sign: 'array.remove(数组, 元素)'
+          params: '数组, 元素'
         },
         {
           value: 'appendArrayAdd',
           text: '向数组添加一个元素',
-          sign: 'array.add(数组, 元素)'
+          params: '数组, 元素'
         },
         {
           value: 'appendArrayContain',
           text: '判断数组是否包含某元素',
-          sign: 'array.contain(数组, 元素)'
+          params: '数组, 元素'
         },
         {
           value: 'appendArrayToArray',
           text: '转化成数组',
-          sign: 'array.toArray(多个元素)'
+          params: '任意数量的参数'
         },
         {
           value: 'appendArrayCollection2Array',
           text: '将java集合转换为数组',
-          sign: 'array.collection2Array(数组)'
+          params: '数组'
         }
       ],
       [
         {
           value: 'appendRegMatch',
           text: '判断是否匹配',
-          sign: 'reg.match(对象, 表达式)'
+          params: '对象, 正则表达式'
         },
         {
           value: 'appendRegReplace',
           text: '替换',
-          sign: 'reg.replace(对象, 表达式, 替换的字符串)'
+          params: '对象, 正则表达式, 替换的字符串'
         },
         {
           value: 'appendRegFind',
           text: '查找第一个匹配的',
-          sign: 'reg.find(对象, 表达式)'
+          params: '对象, 正则表达式'
         },
         {
           value: 'appendRegFindList',
           text: '查找所有匹配的',
-          sign: 'reg.findList(对象, 表达式)'
+          params: '对象, 正则表达式'
         },
         {
           value: 'appendRegSplit',
           text: '切分字符串返回列表',
-          sign: 'reg.split(对象, 表达式)'
+          params: '对象, 正则表达式'
         },
         {
           value: 'appendRegSplitLimit',
           text: '切分字符串返回列表并限制个数',
-          sign: 'reg.split(对象, 表达式, 最多个数)'
+          params: '对象, 正则表达式, 最多个数'
         }
       ],
       []
@@ -353,6 +353,11 @@
       refreshTable()
       form.on('select(type)', (data)=>{
         type = data.value
+        if (parseInt(type) === 0) {
+          $('#params').text('语法符号')
+        } else {
+          $('#params').text('方法参数')
+        }
         refreshTable()
       })
     })
@@ -375,7 +380,7 @@
       tb.children().remove()
       let i = 0
       for (let item of data[type]) {
-        let node = '<tr class="ep" index="[' + type + ',' + i++ + ']"><td>' + item.text + '</td><td>' + item.sign + '</td></tr>'
+        let node = '<tr class="ep" index="[' + type + ',' + i++ + ']"><td>' + item.text + '</td><td>' + item.params + '</td></tr>'
         tb.append(node)
       }
       $('.ep').on('click', epClick)

@@ -202,6 +202,7 @@
                   '          <div class="item layui-inline input">\n' +
                   '            <input type="text" readonly class="layui-input layui-inline method desc-text"   style="width: 230px">\n' +
                   '          </div>\n' +
+                  '          <div style="font-size: 8px; position: absolute;left: 14px; top: 41px;color: darkorange">参数列表</div>' +
                   '        </div>\n' +
                   '        <div class="layui-form-item layui-inline" style="width: 170px; margin-bottom: 0">\n' +
                   '          <div class="item layui-inline">\n' +
@@ -259,6 +260,7 @@
                   '          <div class="item layui-inline input">\n' +
                   '            <input type="text" readonly class="layui-input layui-inline method desc-text"  style="width: 230px">\n' +
                   '          </div>\n' +
+                  '          <div style="font-size: 8px; position: absolute;left: 14px; top: 41px;color: darkorange">参数列表</div>' +
                   '        </div>\n' +
                   '        <div class="layui-form-item layui-inline" style="width: 170px; margin-bottom: 0">\n' +
                   '          <div class="item layui-inline">\n' +
@@ -358,7 +360,7 @@
             $(line.find('.method')).val(select.text)
             $(line.find('.method')).attr('v', select.value)
             if (!normalMethod.includes(select.value)) {
-              $(line.find('.desc-text')).val(select.sign)
+              $(line.find('.desc-text')).val(select.params)
               $(line.find('.desc')).removeClass('hidden')
             }
             set(getStack(), JSON.parse(line.attr('index')))
